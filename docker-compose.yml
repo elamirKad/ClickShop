@@ -1,0 +1,9 @@
+version: '3.9'
+
+services:
+  product_service:
+    build:
+      context: ./product_service
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
