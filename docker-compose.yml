@@ -2,10 +2,13 @@ version: '3.9'
 
 services:
   postgres:
-    image: postgres:15.2
+    image: postgres:latest
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    env_file: .env
+    environment:
+      - POSTGRES_DB=dbtest
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
     ports:
       - 5432:5432
   product_service:
