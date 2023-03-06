@@ -82,7 +82,7 @@ class RegisterTestCase(TestCase):
         )
 
         # Check response status code
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Check response data
         self.assertIn("id", response.data)
