@@ -9,13 +9,22 @@ from django.utils.translation import gettext_lazy
 
 
 class CustomAccountManager(BaseUserManager):
+    """
+    Custom user model manager
+    """
+
     def create_user(
         self, email, user_name, first_name, second_name, password, **other_fields
     ):
+        """
+        Create and save a user with the given email and password
+        """
+        # Normalize the email address
         if not email:
-            raise ValueError(gettext_lazy("You must provide an email address"))
-
+            raise ValueError(gettext_lazy("invalid_email"))
         email = self.normalize_email(email)
+
+        # Create the user
         user = self.model(
             email=email,
             user_name=user_name,
@@ -30,6 +39,9 @@ class CustomAccountManager(BaseUserManager):
     def create_superuser(
         self, email, user_name, first_name, second_name, password, **other_fields
     ):
+        """
+        Create and save a superuser with the given email and password
+        """
         other_fields.setdefault("is_staff", True)
         other_fields.setdefault("is_superuser", True)
         other_fields.setdefault("is_active", True)
@@ -45,6 +57,10 @@ class CustomAccountManager(BaseUserManager):
 
 
 class NewUser(AbstractBaseUser, PermissionsMixin):
+    """
+    Custom user model
+    """
+
     email = models.EmailField(gettext_lazy("email address"), unique=True)
     user_name = models.CharField(max_length=150, unique=True)
     first_name = models.CharField(max_length=150)
@@ -58,3 +74,6 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["user_name", "first_name", "second_name"]
+
+    def __str__(self):
+        return self.user_name
