@@ -6,6 +6,8 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      - default
   postgres:
     image: postgres:latest
     volumes:
@@ -16,6 +18,8 @@ services:
       - POSTGRES_PASSWORD=admin
     ports:
       - 5432:5432
+    networks:
+      - default
   product_service:
     build:
       context: ./product
@@ -31,11 +35,16 @@ services:
     env_file: .env
     volumes:
       - .:/usr/src/product
+    networks:
+      - default
   user_service:
     build:
-      context: ./user
+      context: .
+      dockerfile: ./user_service/Dockerfile
+    restart: always
     command: >
-      sh -c "python manage.py makemigrations &&
+      sh -c "ls &&
+             python manage.py makemigrations &&
              python manage.py migrate &&
              python manage.py test &&
              python manage.py runserver 0.0.0.0:8080"
@@ -45,8 +54,13 @@ services:
       - postgres
     env_file: .env
     volumes:
-      - .:/usr/src/user
+      - ./user_service:/user
+    networks:
+      - default
 
+networks:
+  default:
+    driver: bridge
 
 volumes:
   postgres_data:

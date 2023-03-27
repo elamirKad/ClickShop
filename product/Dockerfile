@@ -2,10 +2,10 @@
 FROM python:3.10-slim-buster
 
 # Set the working directory to /usr/src/product
-WORKDIR /usr/src/app
+WORKDIR /usr/src/product
 
 # Add requirements.txt to working directory
-ADD requirements.txt /usr/src/app
+ADD requirements.txt /usr/src/product
 
 # Set environment variables
 ENV PYTHONUNBUFFERED 1

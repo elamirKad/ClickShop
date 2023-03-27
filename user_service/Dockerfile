@@ -1,11 +1,11 @@
 # Use an official Python runtime as a parent image
 FROM python:3.10-slim-buster
 
-# Set the working directory to /usr/src/product
-WORKDIR /usr/src/app
+# Set the working directory to /usr/src/user
+WORKDIR /user
 
 # Add requirements.txt to working directory
-ADD requirements.txt /usr/src/app
+ADD user_service/requirements.txt /user/
 
 # Set environment variables
 ENV PYTHONUNBUFFERED 1
@@ -21,4 +21,4 @@ RUN apt-get update && apt-get install -y \
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the current directory contents into the container
-COPY . .
+COPY user_service/. /user/
