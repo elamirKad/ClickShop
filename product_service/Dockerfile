@@ -2,10 +2,10 @@
 FROM python:3.10-slim-buster
 
 # Set the working directory to /usr/src/product
-WORKDIR /usr/src/product
+WORKDIR /product
 
 # Add requirements.txt to working directory
-ADD requirements.txt /usr/src/product
+ADD product_service/requirements.txt /product/
 
 # Set environment variables
 ENV PYTHONUNBUFFERED 1
@@ -21,4 +21,4 @@ RUN apt-get update && apt-get install -y \
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the current directory contents into the container
-COPY . .
+COPY product_service/. /product/
